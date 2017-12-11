@@ -23,6 +23,23 @@ func main() {
 			if strings.HasPrefix(message, ">btc") || strings.HasPrefix(message, "<@388984248062967819>") {
 				curr := "USD"
 				if strings.Contains(message, " ") {
+					if strings.Split(message, " ")[1] == "help" {
+						s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
+							Title: "BitcoinBot Help",
+							Color: 0xf4a435,
+							Fields: []*discordgo.MessageEmbedField{
+								&discordgo.MessageEmbedField{
+									Name:   "Usage",
+									Value:  ">btc <currency> or @BitcoinBot#9430 <currency>",
+									Inline: false,
+								},
+								&discordgo.MessageEmbedField{
+									Name:   "Examples",
+									Value:  ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd",
+									Inline: false,
+								},
+							}})
+					}
 					curr = strings.Split(message, " ")[1]
 				} else {
 					curr = "USD"
@@ -35,7 +52,7 @@ func main() {
 				data := map[string]map[string]string{}
 				json.Unmarshal(curlData, &data)
 
-				d := discordgo.MessageEmbed{
+				s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 					Title:       "Bitcoin Price",
 					Color:       0xf4a435,
 					Description: "Current Bitcoin per " + strings.ToUpper(curr) + " price:",
@@ -45,11 +62,11 @@ func main() {
 							Value:  data["data"]["amount"],
 							Inline: true,
 						},
-					}}
-				s.ChannelMessageSendEmbed(m.ChannelID, &d)
+					}})
 			}
 		})
 	err = discord.Open()
+	discord.UpdateStatus(0, ">btc help")
 	if err != nil {
 		log.Println(err)
 		return
