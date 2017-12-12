@@ -13,7 +13,16 @@ import (
 )
 
 func main() {
-	discord, err := discordgo.New("Bot " + "YOUR.BOT.TOKEN")
+	token, err := ioutil.ReadFile("token")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	// Remove the \n at the end
+	token = token[:len(token)-1]
+	
+	discord, err := discordgo.New("Bot " + string(token))
 	if err != nil {
 		log.Println(err)
 		return
