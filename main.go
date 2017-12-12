@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
-	"os/exec"
 	"os/signal"
 	"strings"
 
@@ -44,13 +45,19 @@ func main() {
 				} else {
 					curr = "USD"
 				}
-				curlData, err := exec.Command("/usr/bin/curl", "https://api.coinbase.com/v2/prices/spot?currency="+curr).Output()
+				resp, err := http.Get("https://api.coinbase.com/v2/prices/spot?currency=" + curr)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				defer resp.Body.Close()
+				body, err := ioutil.ReadAll(resp.Body)
 				if err != nil {
 					log.Println(err)
 					return
 				}
 				data := map[string]map[string]string{}
-				json.Unmarshal(curlData, &data)
+				json.Unmarshal(body, &data)
 
 				s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 					Title:       "Bitcoin Price",
