@@ -3,6 +3,7 @@ A discord bot to check Bitcoin Price... yeah... just that...
 # Build
     $ git clone https://github.com/muhammadmuzzammil1998/bitcoinbot.git
     $ cd bitcoinbot
+    $ echo "YOUR.TOKEN.HERE" > token
     $ go build
 # Run
 To run in background
@@ -30,4 +31,4 @@ OR
 
 # [Invite](https://discordapp.com/api/oauth2/authorize?client_id=388984248062967819&permissions=2048&scope=bot)
 Invite BitcoinBot to your Discord server.
-#### Prerequisite: [Go](https://golang.org/doc/install), [DiscordGo](https://github.com/bwmarrin/discordgo) and [curl](https://curl.haxx.se/)
+#### Prerequisite: [Go](https://golang.org/doc/install) and [DiscordGo](https://github.com/bwmarrin/discordgo)
