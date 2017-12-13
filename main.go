@@ -21,7 +21,7 @@ func main() {
 
 	// Remove the \n at the end
 	token = token[:len(token)-1]
-	
+
 	discord, err := discordgo.New("Bot " + string(token))
 	if err != nil {
 		log.Println(err)
@@ -29,6 +29,20 @@ func main() {
 	}
 	discord.AddHandler(
 		func(s *discordgo.Session, m *discordgo.MessageCreate) {
+			go func() {
+				resp, err := http.Get("https://api.coinbase.com/v2/prices/spot?currency=INR")
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				defer resp.Body.Close()
+				body, err := ioutil.ReadAll(resp.Body)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				s.UpdateStatus(0, string(body))
+			}()
 			message := strings.TrimSpace(m.Content)
 			if strings.HasPrefix(message, ">btc") || strings.HasPrefix(message, "<@388984248062967819>") {
 				curr := "USD"
