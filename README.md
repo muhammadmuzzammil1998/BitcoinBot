@@ -1,5 +1,9 @@
-# BitcoinBot
+# BitcoinBot [![Discord Bots](https://discordbots.org/api/widget/status/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819)
+
 A discord bot to check Bitcoin Price... yeah... just that...
+
+[![Discord Bots](https://discordbots.org/api/widget/upvotes/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819)
+[![Discord Bots](https://discordbots.org/api/widget/servers/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819)
 # Build
     $ git clone https://github.com/muhammadmuzzammil1998/bitcoinbot.git
     $ cd bitcoinbot
