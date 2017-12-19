@@ -95,6 +95,15 @@ func main() {
 							Inline: true,
 						},
 					}})
+				/*	For server count management: START	*/
+				f, err := os.OpenFile("/path/to/bitcoinbot/servers", os.O_APPEND|os.O_WRONLY, 0644)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				f.WriteString(m.ChannelID + "\n")
+				f.Close()
+				/*	For server count management: START	*/
 			}
 		})
 	err = discord.Open()
