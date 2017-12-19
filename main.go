@@ -103,7 +103,7 @@ func main() {
 				}
 				f.WriteString(m.ChannelID + "\n")
 				f.Close()
-				/*	For server count management: START	*/
+				/*	For server count management: END	*/
 			}
 		})
 	err = discord.Open()
