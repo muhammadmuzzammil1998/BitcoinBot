@@ -5,12 +5,12 @@ A discord bot to check Bitcoin Price... yeah... just that...
 [![Discord Bots](https://discordbots.org/api/widget/upvotes/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819)
 [![Discord Bots](https://discordbots.org/api/widget/servers/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819) 
 [![Discord Bots](https://discordbots.org/api/widget/status/388984248062967819.svg)](https://discordbots.org/bot/388984248062967819)
-# Build
+## Build
     $ git clone https://github.com/muhammadmuzzammil1998/bitcoinbot.git
     $ cd bitcoinbot
     $ echo "YOUR.TOKEN.HERE" > token
     $ go build
-# Run
+## Run
 To run in background
 
     $ ./bitcoinbot &
@@ -21,19 +21,20 @@ OR
 
 I prefer this block ^
 
-# Usage in Discord
+## Usage in Discord
     >btc <currency>
+    
 OR
 
     @BitcoinBot#9430 <currency>
-## Example
+### Example
 
     @BitcoinBot#9430 USD
     
 ![Result](https://cdn.discordapp.com/attachments/364461767956365312/389885984789102595/unknown.png)
 
-### Help: `>btc help`
+#### Help: `>btc help`
 
-# [Invite](https://discordapp.com/api/oauth2/authorize?client_id=388984248062967819&permissions=2048&scope=bot)
+## [Invite](https://discordapp.com/api/oauth2/authorize?client_id=388984248062967819&permissions=2048&scope=bot)
 Invite BitcoinBot to your Discord server.
-#### Prerequisite: [Go](https://golang.org/doc/install) and [DiscordGo](https://github.com/bwmarrin/discordgo)
+##### Prerequisite: [Go](https://golang.org/doc/install) and [DiscordGo](https://github.com/bwmarrin/discordgo)
