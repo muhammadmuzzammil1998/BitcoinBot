@@ -99,11 +99,6 @@ func main() {
 							Value:  data["data"]["amount"],
 							Inline: true,
 						},
-                                                &discordgo.MessageEmbedField{
-                                                        Name:   "BitcoinBot's BTC Address",
-                                                        Value:  "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs",
-                                                        Inline: true,
-                                                },
 					}})
 				/*	For server count management: START	*/
 				f, err := os.OpenFile("/path/to/bitcoinbot/servers", os.O_APPEND|os.O_WRONLY, 0644)
