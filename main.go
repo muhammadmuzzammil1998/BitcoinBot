@@ -64,11 +64,11 @@ func main() {
 									Value:  ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd",
 									Inline: false,
 								},
-                                                                &discordgo.MessageEmbedField{
-                                                                        Name:   "BitcoinBot's BTC Address",
-                                                                        Value:  "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs",
-                                                                        Inline: false,
-                                                                },
+								&discordgo.MessageEmbedField{
+									Name:   "BitcoinBot's BTC Address",
+									Value:  "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs",
+									Inline: false,
+								},
 							}})
 					}
 					curr = strings.Split(message, " ")[1]
