@@ -62,7 +62,12 @@ func main() {
 								&discordgo.MessageEmbedField{
 									Name:   "BitcoinBot's BTC Address",
 									Value:  "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs",
-									Inline: false,
+									Inline: true,
+								},
+								&discordgo.MessageEmbedField{
+									Name:   "Version",
+									Value:  "Cherry (2.0)",
+									Inline: true,
 								},
 							}})
 					}
