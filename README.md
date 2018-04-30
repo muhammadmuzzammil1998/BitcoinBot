@@ -14,16 +14,15 @@ A discord bot to check Bitcoin Price... yeah... just that...
 ## Build
     $ git clone https://github.com/muhammadmuzzammil1998/bitcoinbot.git
     $ cd bitcoinbot
-    $ echo "YOUR.TOKEN.HERE" > token
     $ go build
 ## Run
 To run in background
 
-    $ ./bitcoinbot &
+    $ ./bitcoinbot -token YOUR.TOKEN.HERE &
 
 OR
 
-    $ pkill bitcoinbot; cd /path/to/bitcoinbot; go build; nohup ./bitcoinbot &; disown; echo "\n\nBitcoinBot is up\n\n"; ps ax | grep ./bitcoinbot;
+    $ pkill bitcoinbot; cd /path/to/bitcoinbot; go build; nohup ./bitcoinbot -token YOUR.TOKEN.HERE &; disown; echo "\n\nBitcoinBot is up\n\n"; ps ax | grep ./bitcoinbot;
 
 I prefer this block ^
 
