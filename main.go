@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -13,15 +14,9 @@ import (
 )
 
 func main() {
-	token, err := ioutil.ReadFile("token")
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	// Remove the \n at the end
-	token = token[:len(token)-1]
-
+	var token string
+	flag.StringVar(&token, "token", "nil", "Bot token")
+	flag.Parse()
 	discord, err := discordgo.New("Bot " + string(token))
 	if err != nil {
 		log.Println(err)
