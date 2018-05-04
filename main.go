@@ -24,12 +24,12 @@ var (
 
 //UpdateStatus updates status on discord
 func UpdateStatus(discord *discordgo.Session) {
-	rate, err := GetPrice("USD")
+	rate, t, err := GetPrice("USD")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	discord.UpdateStatus(0, ">btc help | $"+rate)
+	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
 }
 
 //GetPrice returns price
