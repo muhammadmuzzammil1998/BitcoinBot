@@ -14,9 +14,11 @@ import (
 )
 
 //Global Variables
-var codename = "Cherry"
-var version = "2.0"
-var api = "https://api.coinbase.com/v2/prices/spot?currency="
+var (
+	codename = "Cherry"
+	version  = "2.0"
+	api      = "https://api.coinbase.com/v2/prices/spot?currency="
+)
 
 //UpdateStatus updates status on discord
 func UpdateStatus(discord *discordgo.Session) {
