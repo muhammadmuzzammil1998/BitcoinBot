@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"strings"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -116,6 +117,11 @@ func CreateField(name string, value string, inline bool) *discordgo.MessageEmbed
 		Value:  value,
 		Inline: inline,
 	}
+}
+
+//GetTime returns unix timestamp in milliseconds
+func GetTime() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
 func main() {
