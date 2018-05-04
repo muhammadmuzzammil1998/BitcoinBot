@@ -22,14 +22,26 @@ var (
 	api      = "https://api.coinbase.com/v2/prices/spot?currency="
 )
 
-//UpdateStatus updates status on discord
-func UpdateStatus(discord *discordgo.Session) {
-	rate, t, err := GetPrice("USD")
+//main function
+func main() {
+	var token string
+	flag.StringVar(&token, "token", "nil", "Bot token")
+	flag.Parse()
+	discord, err := discordgo.New("Bot " + string(token))
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
+	discord.AddHandler(Response)
+	err = discord.Open()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	log.Println("Bitcoin Bot is up!")
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, os.Kill)
+	<-c
 }
 
 //GetPrice returns price
@@ -103,17 +115,14 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
-//Report error
-func Report(s *discordgo.Session, m string) {
-	s.ChannelMessageSendEmbed(m, &discordgo.MessageEmbed{
-		Title:       "Error",
-		Color:       0xe74c3c,
-		Description: "An error occurred. Please report this so I can fix this.",
-		Fields: []*discordgo.MessageEmbedField{
-			CreateField("Report", "https://bit.ly/btcBotReport", false),
-			CreateField("Email", "bitcoinbot@muzzammil.xyz", false),
-		},
-	})
+//UpdateStatus updates status on discord
+func UpdateStatus(discord *discordgo.Session) {
+	rate, t, err := GetPrice("USD")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
 }
 
 //CreateField creates Message Embed Field and returns its address
@@ -130,23 +139,15 @@ func GetTime() int64 {
 	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
-func main() {
-	var token string
-	flag.StringVar(&token, "token", "nil", "Bot token")
-	flag.Parse()
-	discord, err := discordgo.New("Bot " + string(token))
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	discord.AddHandler(Response)
-	err = discord.Open()
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	log.Println("Bitcoin Bot is up!")
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, os.Kill)
-	<-c
+//Report error
+func Report(s *discordgo.Session, m string) {
+	s.ChannelMessageSendEmbed(m, &discordgo.MessageEmbed{
+		Title:       "Error",
+		Color:       0xe74c3c,
+		Description: "An error occurred. Please report this so I can fix this.",
+		Fields: []*discordgo.MessageEmbedField{
+			CreateField("Report", "https://bit.ly/btcBotReport", false),
+			CreateField("Email", "bitcoinbot@muzzammil.xyz", false),
+		},
+	})
 }
