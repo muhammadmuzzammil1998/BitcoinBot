@@ -8,7 +8,9 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bwmarrin/discordgo"
 )
@@ -22,20 +24,21 @@ var (
 
 //UpdateStatus updates status on discord
 func UpdateStatus(discord *discordgo.Session) {
-	rate, err := GetPrice("USD")
+	rate, t, err := GetPrice("USD")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	discord.UpdateStatus(0, ">btc help | $"+rate)
+	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
 }
 
 //GetPrice returns price
-func GetPrice(currency string) (string, error) {
+func GetPrice(currency string) (string, string, error) {
+	tStart := GetTime()
 	resp, err := http.Get(api + currency)
 	if err != nil {
 		log.Println(err)
-		return "", err
+		return "", "", err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -43,9 +46,10 @@ func GetPrice(currency string) (string, error) {
 	json.Unmarshal(body, &data)
 	if err != nil {
 		log.Println(err)
-		return "", err
+		return "", "", err
 	}
-	return data["data"]["amount"], nil
+	tEnd := GetTime()
+	return data["data"]["amount"], strconv.FormatInt(tEnd-tStart, 10), nil
 }
 
 //Response for commands
@@ -56,21 +60,23 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 		curr := "USD"
 		if strings.Contains(message, " ") {
 			if strings.Split(message, " ")[1] == "help" {
+				_, t, _ := GetPrice("USD")
 				s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 					Title: "BitcoinBot Help",
 					Color: 0xf4a435,
 					Fields: []*discordgo.MessageEmbedField{
 						CreateField("Usage", ">btc <currency> or @BitcoinBot#9430 <currency>", false),
 						CreateField("Examples", ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd", false),
-						CreateField("BitcoinBot's BTC Address", "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs", true),
+						CreateField("BitcoinBot's BTC Address", "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs", false),
 						CreateField("Version", codename+" ("+version+")", true),
 						CreateField("Website", "https://bit.ly/btcbot", true),
+						CreateField("API Latency", t+"ms", true),
 					},
 				})
 			}
 			curr = strings.Split(message, " ")[1]
 		}
-		rate, err := GetPrice(curr)
+		rate, _, err := GetPrice(curr)
 		if err != nil {
 			log.Println(err)
 			Report(s, m.ChannelID)
@@ -116,6 +122,11 @@ func CreateField(name string, value string, inline bool) *discordgo.MessageEmbed
 		Value:  value,
 		Inline: inline,
 	}
+}
+
+//GetTime returns unix timestamp in milliseconds
+func GetTime() int64 {
+	return time.Now().UnixNano() / int64(time.Millisecond)
 }
 
 func main() {
