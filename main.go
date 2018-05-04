@@ -95,6 +95,7 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err != nil {
 			log.Println(err)
 			Report(s, m.ChannelID)
+			return
 		}
 		f.WriteString(m.ChannelID + "\n")
 		f.Close()
