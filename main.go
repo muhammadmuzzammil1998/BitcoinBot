@@ -53,13 +53,18 @@ func GetPrice(currency string) (string, string, error) {
 		return "", "", err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		log.Println("Invalid response for " + currency + " | <" + resp.Status + ">")
+		tEnd := GetTime()
+		return "Invalid " + resp.Status, strconv.FormatInt(tEnd-tStart, 10), nil
+	}
 	body, err := ioutil.ReadAll(resp.Body)
-	data := map[string]map[string]string{}
-	json.Unmarshal(body, &data)
 	if err != nil {
 		log.Println(err)
 		return "", "", err
 	}
+	data := map[string]map[string]string{}
+	json.Unmarshal(body, &data)
 	tEnd := GetTime()
 	return data["data"]["amount"], strconv.FormatInt(tEnd-tStart, 10), nil
 }
@@ -92,6 +97,18 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err != nil {
 			log.Println(err)
 			Report(s, m.ChannelID)
+			return
+		}
+		if strings.Contains(rate, "Invalid") {
+			s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
+				Title:       "Error",
+				Color:       0xe74c3c,
+				Description: "Invalid response: " + strings.TrimPrefix(rate, "Invalid "),
+				Fields: []*discordgo.MessageEmbedField{
+					CreateField("Report", "https://bit.ly/btcBotReport", false),
+					CreateField("Email", "bitcoinbot@muzzammil.xyz", false),
+				},
+			})
 			return
 		}
 		s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
