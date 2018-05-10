@@ -18,7 +18,7 @@ import (
 //Global Variables
 var (
 	codename = "Blueberry"
-	version  = "3.0"
+	version  = "3.1"
 	vColor   = 0x3498db
 	api      = "https://api.coinbase.com/v2/prices/spot?currency="
 )
@@ -91,6 +91,7 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 						CreateField("API Latency", t+"ms", true),
 					},
 				})
+				return
 			}
 			curr = strings.Split(message, " ")[1]
 		}
