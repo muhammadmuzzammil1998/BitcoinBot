@@ -17,8 +17,9 @@ import (
 
 //Global Variables
 var (
-	codename = "Cherry"
-	version  = "2.0"
+	codename = "Blueberry"
+	version  = "3.0"
+	vColor   = 0x3498db
 	api      = "https://api.coinbase.com/v2/prices/spot?currency="
 )
 
@@ -80,7 +81,7 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 				_, t, _ := GetPrice("USD")
 				s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 					Title: "BitcoinBot Help",
-					Color: 0xf4a435,
+					Color: vColor,
 					Fields: []*discordgo.MessageEmbedField{
 						CreateField("Usage", ">btc <currency> or @BitcoinBot#9430 <currency>", false),
 						CreateField("Examples", ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd", false),
