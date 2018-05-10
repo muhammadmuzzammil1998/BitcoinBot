@@ -67,8 +67,8 @@ func GetPrice(currency string) (string, string, error) {
 //Response for commands
 func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 	go UpdateStatus(s)
-	message := strings.TrimSpace(m.Content)
-	if strings.HasPrefix(message, ">btc") || strings.HasPrefix(message, "<@388984248062967819>") {
+	message := strings.ToLower(strings.TrimSpace(m.Content))
+	if strings.HasPrefix(message, ">btc") || strings.Contains(strings.Split(message, " ")[0], s.State.User.ID) {
 		curr := "USD"
 		if strings.Contains(message, " ") {
 			if strings.Split(message, " ")[1] == "help" {
