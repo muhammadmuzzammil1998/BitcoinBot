@@ -83,8 +83,8 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 					Title: "BitcoinBot Help",
 					Color: vColor,
 					Fields: []*discordgo.MessageEmbedField{
-						CreateField("Usage", ">btc <currency> or @BitcoinBot#9430 <currency>", false),
-						CreateField("Examples", ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd", false),
+						CreateField("Usage", ">btc <currency> or @BitcoinBot <currency>", false),
+						CreateField("Examples", ">btc, >btc USD, @BitcoinBot, @BitcoinBot usd", false),
 						CreateField("BitcoinBot's BTC Address", "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs", false),
 						CreateField("Version", codename+" ("+version+")", true),
 						CreateField("Website", "https://bit.ly/btcbot", true),
