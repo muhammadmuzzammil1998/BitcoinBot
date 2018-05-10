@@ -139,7 +139,7 @@ func UpdateStatus(discord *discordgo.Session) {
 		log.Println(err)
 		return
 	}
-	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
+	discord.UpdateStatus(0, "$"+strings.Split(rate, ".")[0]+" | "+t+"ms"+" | >btc help")
 }
 
 //CreateField creates Message Embed Field and returns its address
