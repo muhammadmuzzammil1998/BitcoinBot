@@ -17,8 +17,9 @@ import (
 
 //Global Variables
 var (
-	codename = "Cherry"
-	version  = "2.0"
+	codename = "Blueberry"
+	version  = "3.0"
+	vColor   = 0x3498db
 	api      = "https://api.coinbase.com/v2/prices/spot?currency="
 )
 
@@ -53,13 +54,18 @@ func GetPrice(currency string) (string, string, error) {
 		return "", "", err
 	}
 	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		log.Println("Invalid response for " + currency + " | <" + resp.Status + ">")
+		tEnd := GetTime()
+		return "Invalid " + resp.Status, strconv.FormatInt(tEnd-tStart, 10), nil
+	}
 	body, err := ioutil.ReadAll(resp.Body)
-	data := map[string]map[string]string{}
-	json.Unmarshal(body, &data)
 	if err != nil {
 		log.Println(err)
 		return "", "", err
 	}
+	data := map[string]map[string]string{}
+	json.Unmarshal(body, &data)
 	tEnd := GetTime()
 	return data["data"]["amount"], strconv.FormatInt(tEnd-tStart, 10), nil
 }
@@ -67,18 +73,18 @@ func GetPrice(currency string) (string, string, error) {
 //Response for commands
 func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 	go UpdateStatus(s)
-	message := strings.TrimSpace(m.Content)
-	if strings.HasPrefix(message, ">btc") || strings.HasPrefix(message, "<@388984248062967819>") {
+	message := strings.ToLower(strings.TrimSpace(m.Content))
+	if strings.HasPrefix(message, ">btc") || strings.Contains(strings.Split(message, " ")[0], s.State.User.ID) {
 		curr := "USD"
 		if strings.Contains(message, " ") {
 			if strings.Split(message, " ")[1] == "help" {
 				_, t, _ := GetPrice("USD")
 				s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 					Title: "BitcoinBot Help",
-					Color: 0xf4a435,
+					Color: vColor,
 					Fields: []*discordgo.MessageEmbedField{
-						CreateField("Usage", ">btc <currency> or @BitcoinBot#9430 <currency>", false),
-						CreateField("Examples", ">btc, >btc USD, @BitcoinBot#9430, @BitcoinBot#9430 usd", false),
+						CreateField("Usage", ">btc <currency> or @BitcoinBot <currency>", false),
+						CreateField("Examples", ">btc, >btc USD, @BitcoinBot, @BitcoinBot usd", false),
 						CreateField("BitcoinBot's BTC Address", "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs", false),
 						CreateField("Version", codename+" ("+version+")", true),
 						CreateField("Website", "https://bit.ly/btcbot", true),
@@ -92,6 +98,18 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if err != nil {
 			log.Println(err)
 			Report(s, m.ChannelID)
+			return
+		}
+		if strings.Contains(rate, "Invalid") {
+			s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
+				Title:       "Error",
+				Color:       0xe74c3c,
+				Description: "Invalid response: " + strings.TrimPrefix(rate, "Invalid "),
+				Fields: []*discordgo.MessageEmbedField{
+					CreateField("Report", "https://bit.ly/btcBotReport", false),
+					CreateField("Email", "bitcoinbot@muzzammil.xyz", false),
+				},
+			})
 			return
 		}
 		s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
@@ -122,7 +140,7 @@ func UpdateStatus(discord *discordgo.Session) {
 		log.Println(err)
 		return
 	}
-	discord.UpdateStatus(0, ">btc help | $"+rate+" | "+t+"ms")
+	discord.UpdateStatus(0, "$"+strings.Split(rate, ".")[0]+" | "+t+"ms"+" | >btc help")
 }
 
 //CreateField creates Message Embed Field and returns its address

@@ -30,11 +30,11 @@ I prefer this block ^
 
 OR
 
-    @BitcoinBot#9430 <currency>
+    @BitcoinBot <currency>
 
 ### Example
 
-    @BitcoinBot#9430 USD
+    @BitcoinBot USD
     
 ![Result](https://cdn.discordapp.com/attachments/364461767956365312/389885984789102595/unknown.png)
 
