@@ -25,7 +25,8 @@ OR
 I prefer this block ^
 
 ## -token flag
-Your discord bot token found under "Reviewing Bot" section.
+Your discord bot token. ("Reviewing Bot" section)
+
 Usage
 ```
 -token string
