@@ -53,4 +53,6 @@ OR
 
 Invite BitcoinBot to your Discord server.
 
+## [Join support server](https://discord.gg/D9JpAUh)
+
 ##### Prerequisite: [Go](https://golang.org/doc/install) and [DiscordGo](https://github.com/bwmarrin/discordgo)
