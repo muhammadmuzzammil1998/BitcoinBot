@@ -18,7 +18,7 @@ import (
 //Global Variables
 var (
 	codename = "Blueberry"
-	version  = "3.1"
+	version  = "3.1.1"
 	vColor   = 0x3498db
 	api      = "https://api.coinbase.com/v2/prices/spot?currency="
 )
@@ -85,9 +85,9 @@ func Response(s *discordgo.Session, m *discordgo.MessageCreate) {
 					Fields: []*discordgo.MessageEmbedField{
 						CreateField("Usage", ">btc <currency> or @BitcoinBot <currency>", false),
 						CreateField("Examples", ">btc, >btc USD, @BitcoinBot, @BitcoinBot usd", false),
-						CreateField("BitcoinBot's BTC Address", "3KyXwJhu1FpaPukJnzG9bPzn46xJ2ggTAs", false),
+						CreateField("BitcoinBot's BTC Address", "34pXdN3WbsXDwXAir2M3kqkLw5NQh3rcXg", false),
 						CreateField("Version", codename+" ("+version+")", true),
-						CreateField("Website", "https://bit.ly/btcbot", true),
+						CreateField("Website", "http://bit.ly/34pbtc", true),
 						CreateField("API Latency", t+"ms", true),
 					},
 				})
